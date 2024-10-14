@@ -21,7 +21,7 @@ namespace CP2.API.Domain.Entities
         public string Endereco { get; set; }
 
         [Required]
-        [MaxLength(15)]
+        [MaxLength(11)]
         public string Telefone { get; set; }
 
         [Required]
