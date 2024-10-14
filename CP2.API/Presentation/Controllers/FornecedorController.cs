@@ -20,7 +20,7 @@ namespace CP2.API.Presentation.Controllers
 
 
         [HttpGet]
-        [SwaggerOperation(Summary = "Lista todos os fornecedores", Description = "Este endpoint retorna uma lista completa de todos os fornecedores cadastrados.")]
+        [SwaggerOperation(Summary = "Lista todos os fornecedores", Description = "Este endpoint retorna uma lista completa de todos os fornecedores cadastrados..")]
         [Produces<IEnumerable<FornecedorEntity>>]
         public IActionResult Get()
         {
