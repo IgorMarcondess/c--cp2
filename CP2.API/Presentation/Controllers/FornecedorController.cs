@@ -99,7 +99,7 @@ namespace CP2.API.Presentation.Controllers
         {
             var objModel = _applicationService.DeletarDadosFornecedor(id);
 
-            if (objModel is not null)
+            if (objModel != null)
                 return Ok(objModel);
 
             return BadRequest("Não foi possivel deletar os dados");

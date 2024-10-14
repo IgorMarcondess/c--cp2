@@ -2,6 +2,7 @@
 using CP2.API.Application.Dtos;
 using CP2.API.Domain.Entities;
 using CP2.API.Domain.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace CP2.API.Application.Services
 {
@@ -14,14 +15,89 @@ namespace CP2.API.Application.Services
             _repository = repository;
         }
 
-        public FornecedorEntity? ObterFornecedorPorId(int id)
+        public FornecedorDto? ObterFornecedorPorId(int id)
         {
-            return _repository.ObterPorId(id);
+            var fornecedor = _repository.ObterPorId(id);
+            return fornecedor != null ? ConverterParaDto(fornecedor) : null;
         }
 
-        public IEnumerable<FornecedorEntity> ObterTodosFornecedores()
+        public IEnumerable<FornecedorDto> ObterTodosFornecedores()
         {
-            return _repository.ObterTodos();
+            var fornecedores = _repository.ObterTodos();
+            return fornecedores.Select(ConverterParaDto);
         }
+
+        public FornecedorDto SalvarDadosFornecedor(FornecedorDto fornecedorDto)
+        {
+            ValidarDto(fornecedorDto);
+            var fornecedorEntity = ConverterParaEntity(fornecedorDto);
+
+            _repository.Criar(fornecedorEntity);
+            return ConverterParaDto(fornecedorEntity);
+        }
+
+        public FornecedorDto? EditarDadosFornecedor(int id, FornecedorDto fornecedorDto)
+        {
+            var fornecedorExistente = _repository.ObterPorId(id);
+            if (fornecedorExistente == null) return null;
+
+            ValidarDto(fornecedorDto);
+
+            fornecedorExistente.Nome = fornecedorDto.Nome;
+            fornecedorExistente.CNPJ = fornecedorDto.Cnpj;
+            fornecedorExistente.Endereco = fornecedorDto.Endereco;
+            fornecedorExistente.Telefone = fornecedorDto.Telefone;
+
+            _repository.Atualizar(fornecedorExistente);
+            return ConverterParaDto(fornecedorExistente);
+        }
+
+        public bool DeletarDadosFornecedor(int id)
+        {
+            var fornecedor = _repository.ObterPorId(id);
+            if (fornecedor == null) return false;
+
+            _repository.DeletarDados(id);
+            return true;
+        }
+
+        private FornecedorDto ConverterParaDto(FornecedorEntity fornecedor)
+        {
+            return new FornecedorDto(
+                fornecedor.Id,
+                fornecedor.Nome,
+                fornecedor.CNPJ,
+                fornecedor.Endereco,
+                fornecedor.Telefone
+            );
+        }
+
+        private FornecedorEntity ConverterParaEntity(FornecedorDto fornecedorDto)
+        {
+            return new FornecedorEntity
+            {
+                Id = fornecedorDto.Id,
+                Nome = fornecedorDto.Nome,
+                CNPJ = fornecedorDto.Cnpj,
+                Endereco = fornecedorDto.Endereco,
+                Telefone = fornecedorDto.Telefone,
+                CriadoEm = DateTime.Now
+            };
+        }
+
+        private void ValidarDto(FornecedorDto fornecedorDto)
+        {
+            var context = new ValidationContext(fornecedorDto, null, null);
+            var results = new List<ValidationResult>();
+
+            bool isValid = Validator.TryValidateObject(fornecedorDto, context, results, true);
+            if (!isValid)
+            {
+                var erros = string.Join("; ", results.Select(r => r.ErrorMessage));
+                throw new ValidationException($"Erro(s) de validação: {erros}");
+            }
+        }
+
+
     }
 }
