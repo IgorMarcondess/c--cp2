@@ -25,20 +25,16 @@ namespace CP2.API.Infrastructure.Data.Repositories
 
         public void Criar(FornecedorEntity fornecedor)
         {
-            if (ValidarFornecedor(fornecedor))
-            {
+
                 _context.Set<FornecedorEntity>().Add(fornecedor);
                 _context.SaveChanges();
-            }
+
         }
 
         public void Atualizar(FornecedorEntity fornecedor)
         {
-            if (ValidarFornecedor(fornecedor))
-            {
                 _context.Set<FornecedorEntity>().Update(fornecedor);
                 _context.SaveChanges();
-            }
         }
 
         public void DeletarDados(int id)

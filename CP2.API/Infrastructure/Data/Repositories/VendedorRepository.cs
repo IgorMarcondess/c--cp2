@@ -25,20 +25,14 @@ namespace CP2.API.Infrastructure.Data.Repositories
 
         public void Criar(VendedorEntity vendedor)
         {
-            if (ValidarVendedor(vendedor))
-            {
                 _context.Set<VendedorEntity>().Add(vendedor);
                 _context.SaveChanges();
-            }
         }
 
         public void Atualizar(VendedorEntity vendedor)
         {
-            if (ValidarVendedor(vendedor))
-            {
                 _context.Set<VendedorEntity>().Update(vendedor);
                 _context.SaveChanges();
-            }
         }
 
         public void DeletarDados(int id)
