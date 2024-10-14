@@ -13,6 +13,10 @@ builder.Services.AddDbContext<ApplicationContext>(x => {
 });
 
 builder.Services.AddTransient<IFornecedorRepository, FornecedorRepository>();
+builder.Services.AddTransient<IVendedorRepository, VendedorRepository>();
+builder.Services.AddTransient<IFornecedorApplicationService, FornecedorApplicationService>();
+builder.Services.AddTransient<IVendedorApplicationService, VendedorApplicationService>();
+
 
 
 builder.Services.AddControllers();

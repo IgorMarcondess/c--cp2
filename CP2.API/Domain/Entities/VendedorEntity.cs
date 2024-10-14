@@ -10,7 +10,7 @@ namespace CP2.API.Domain.Entities
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(100)]
+        [MaxLength(20)]
         public string Nome { get; set; }
 
         [Required]
@@ -25,7 +25,7 @@ namespace CP2.API.Domain.Entities
         public string Endereco { get; set; }
 
         [Required]
-        [MaxLength(15)]
+        [StringLength(11, MinimumLength = 9, ErrorMessage = "Telefone precisa ter no mínimo 9 caracteres")]
         public string Telefone { get; set; }
 
         [Required]

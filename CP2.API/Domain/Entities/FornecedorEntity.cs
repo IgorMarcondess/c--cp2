@@ -11,22 +11,22 @@ namespace CP2.API.Domain.Entities
 
         [Required]
         [MaxLength(100)]
-        public string Nome { get; set; }
+        public string Nome { get; set; } = null!;
 
         [Required]
-        [MaxLength(14)]
-        public string CNPJ { get; set; }
+        [StringLength(14, MinimumLength = 14, ErrorMessage = "CNPJ precisa ter 14 caracteres")]
+        public string CNPJ { get; set; } = null!;
 
         [MaxLength(200)]
-        public string Endereco { get; set; }
+        public string Endereco { get; set; } = null!;
 
         [Required]
-        [MaxLength(11)]
-        public string Telefone { get; set; }
+        [StringLength(11, MinimumLength = 9, ErrorMessage = "Telefone precisa ter no mínimo 9 caracteres")]
+        public string Telefone { get; set; } = null!;
 
         [Required]
         [EmailAddress]
-        public string Email { get; set; }
+        public string Email { get; set; } = null!;
 
         public DateTime CriadoEm { get; set; }
     }
